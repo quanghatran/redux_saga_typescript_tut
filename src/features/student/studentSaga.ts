@@ -9,11 +9,12 @@ function* fetchStudentList(action: PayloadAction<ListParams>) {
     const response: ListResponse<Student> = yield call(studentApi.getAll, action.payload);
     yield put(studentActions.fetchStudentListSuccess(response));
   } catch (error) {
-    console.log('failed to fetch student list', error);
-    // yield put(studentActions.fetchStudentListFailed());
+    console.log('Failed to fetch student list', error);
+    yield put(studentActions.fetchStudentListFailed());
   }
 }
 
 export default function* studentSaga() {
+  // watch fetch student action
   yield takeLatest(studentActions.fetchStudentList, fetchStudentList);
 }

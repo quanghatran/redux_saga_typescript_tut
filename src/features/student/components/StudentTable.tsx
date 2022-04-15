@@ -24,20 +24,19 @@ const useStyles = makeStyles((theme) => ({
 
 export interface StudentTableProps {
   studentList: Student[];
-  // cityMap: {
-  //   [key: string]: City;
-  // };
+  cityMap: {
+    [key: string]: City;
+  };
   onEdit?: (student: Student) => void;
   onRemove?: (student: Student) => void;
 }
 
 export default function StudentTable({
   studentList,
+  cityMap,
   onEdit,
   onRemove,
-}: // cityMap,
-
-StudentTableProps) {
+}: StudentTableProps) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<Student>();
@@ -82,7 +81,8 @@ StudentTableProps) {
                     {student.mark}
                   </Box>
                 </TableCell>
-                {/* <TableCell>{cityMap[student.city]?.name}</TableCell> */}
+                <TableCell>{cityMap[student.city]?.name}</TableCell>
+
                 <TableCell align="right">
                   <Button
                     size="small"

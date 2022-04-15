@@ -1,12 +1,14 @@
 import { Box, Button, LinearProgress, makeStyles, Typography } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { selectCityMap } from 'features/city/citySlice';
 import React, { useEffect } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import StudentTable from '../components/StudentTable';
 import {
   selectStudentFilter,
   selectStudentList,
+  selectStudentLoading,
   selectStudentPagination,
   studentActions,
 } from '../studentSlice';
@@ -42,8 +44,8 @@ export default function ListPage() {
 
   const pagination = useAppSelector(selectStudentPagination);
   const filter = useAppSelector(selectStudentFilter);
-  // const loading = useAppSelector(selectStudenLoading);
-  // const cityMap = useAppSelector(selectCityMap);
+  const loading = useAppSelector(selectStudentLoading);
+  const cityMap = useAppSelector(selectCityMap);
   // const cityList = useAppSelector(selectCityList);
 
   const handlePageChange = (e: any, page: number) => {
@@ -56,12 +58,12 @@ export default function ListPage() {
   };
 
   useEffect(() => {
-    dispatch(studentActions.fetchStudentList({ filter }));
+    dispatch(studentActions.fetchStudentList(filter));
   }, [dispatch, filter]);
 
   return (
-    <Box>
-      {/* {loading && <LinearProgress className={classes.loading} />} */}
+    <Box className={classes.root}>
+      {loading && <LinearProgress className={classes.loading} />}
 
       <Box className={classes.titleContainer}>
         <Typography variant="h4">Students</Typography>
@@ -75,7 +77,7 @@ export default function ListPage() {
 
       <StudentTable
         studentList={studentList}
-        // cityMap={cityMap}
+        cityMap={cityMap}
         // onEdit={handleEditStudent}
         // onRemove={handleRemoveStudent}
       />

@@ -30,12 +30,14 @@ const studentSlice = createSlice({
     fetchStudentList(state, action: PayloadAction<ListParams>) {
       state.loading = true;
     },
+
     fetchStudentListSuccess(state, action: PayloadAction<ListResponse<Student>>) {
       state.list = action.payload.data;
       state.pagination = action.payload.pagination;
       state.loading = false;
     },
-    fetchStudentListFailed(state, action: PayloadAction<String>) {
+
+    fetchStudentListFailed(state) {
       state.loading = false;
     },
 
