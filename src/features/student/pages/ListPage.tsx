@@ -1,9 +1,11 @@
 import { Box, Button, LinearProgress, makeStyles, Typography } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { selectCityMap } from 'features/city/citySlice';
+import { selectCityList, selectCityMap } from 'features/city/citySlice';
+import { ListParams } from 'models';
 import React, { useEffect } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
+import StudentFilters from '../components/StudentFilters';
 import StudentTable from '../components/StudentTable';
 import {
   selectStudentFilter,
@@ -46,7 +48,11 @@ export default function ListPage() {
   const filter = useAppSelector(selectStudentFilter);
   const loading = useAppSelector(selectStudentLoading);
   const cityMap = useAppSelector(selectCityMap);
-  // const cityList = useAppSelector(selectCityList);
+  const cityList = useAppSelector(selectCityList);
+
+  useEffect(() => {
+    dispatch(studentActions.fetchStudentList(filter));
+  }, [dispatch, filter]);
 
   const handlePageChange = (e: any, page: number) => {
     dispatch(
@@ -57,9 +63,13 @@ export default function ListPage() {
     );
   };
 
-  useEffect(() => {
-    dispatch(studentActions.fetchStudentList(filter));
-  }, [dispatch, filter]);
+  const handleSearchChange = (newFilter: ListParams) => {
+    dispatch(studentActions.setFilterWithDebounce(newFilter));
+  };
+
+  const handleFilterChange = (newFilter: ListParams) => {
+    dispatch(studentActions.setFilter(newFilter));
+  };
 
   return (
     <Box className={classes.root}>
@@ -73,6 +83,15 @@ export default function ListPage() {
             Add new student
           </Button>
         </Link>
+      </Box>
+
+      <Box mb={3}>
+        <StudentFilters
+          filter={filter}
+          cityList={cityList}
+          onSearchChange={handleSearchChange}
+          onChange={handleFilterChange}
+        />
       </Box>
 
       <StudentTable
