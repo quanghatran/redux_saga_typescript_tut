@@ -73,7 +73,7 @@ export default function StudentTable({
           <TableBody>
             {studentList.map((student) => (
               <TableRow key={student.id}>
-                <TableCell width={310}>{student.id}</TableCell>
+                z<TableCell width={310}>{student.id}</TableCell>
                 <TableCell>{student.name}</TableCell>
                 <TableCell>{capitalizeString(student.gender)}</TableCell>
                 <TableCell>
@@ -82,7 +82,6 @@ export default function StudentTable({
                   </Box>
                 </TableCell>
                 <TableCell>{cityMap[student.city]?.name}</TableCell>
-
                 <TableCell align="right">
                   <Button
                     size="small"

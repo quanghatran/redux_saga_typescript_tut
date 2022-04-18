@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { selectCityList, selectCityMap } from 'features/city/citySlice';
 import { ListParams, Student } from 'models';
 import React, { useEffect } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import StudentFilters from '../components/StudentFilters';
 import StudentTable from '../components/StudentTable';
 import {
@@ -42,6 +42,7 @@ export default function ListPage() {
   const dispatch = useAppDispatch();
   const classes = useStyles();
   const match = useRouteMatch();
+  const history = useHistory();
 
   const studentList = useAppSelector(selectStudentList);
 
@@ -88,6 +89,10 @@ export default function ListPage() {
     }
   };
 
+  const handleEditStudent = async (student: Student) => {
+    history.push(`${match.url}/${student.id}`);
+  };
+
   return (
     <Box className={classes.root}>
       {loading && <LinearProgress className={classes.loading} />}
@@ -114,7 +119,7 @@ export default function ListPage() {
       <StudentTable
         studentList={studentList}
         cityMap={cityMap}
-        // onEdit={handleEditStudent}
+        onEdit={handleEditStudent}
         onRemove={handleRemoveStudent}
       />
 
